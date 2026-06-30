@@ -1,4 +1,3 @@
-
 const uploadForm = document.getElementById('upload-form');
 const pdfInput = document.getElementById('pdf-input');
 const uploadStatus = document.getElementById('upload-status');
@@ -9,48 +8,44 @@ const answerBox = document.getElementById('answer');
 const kSlider = document.getElementById('k-slider');
 const kValue = document.getElementById('k-value');
 
-function showMessage(el, msg, isError = false) {
+function setMessage(el, msg, type = 'info') {
+  // type: 'info' (default), 'error', 'success'
   el.textContent = msg;
-  el.style.color = isError ? '#e74c3c' : '#27ae60';
+  el.style.color = type === 'error' ? '#e53935' : type === 'success' ? '#43a047' : 'inherit';
 }
 
 uploadForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const file = pdfInput.files[0];
   if (!file) {
-    showMessage(uploadStatus, 'Please select a PDF file.', true);
+    setMessage(uploadStatus, 'Please select a PDF file.', 'error');
     return;
   }
   const formData = new FormData();
   formData.append('file', file);
   try {
-    showMessage(uploadStatus, 'Uploading …');
-    const resp = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    });
+    setMessage(uploadStatus, 'Uploading…');
+    const resp = await fetch('/api/upload', { method: 'POST', body: formData });
     const data = await resp.json();
     if (resp.ok) {
-      showMessage(uploadStatus, data.message);
+      setMessage(uploadStatus, data.message, 'success');
     } else {
-      showMessage(uploadStatus, data.detail || 'Upload failed.', true);
+      setMessage(uploadStatus, data.detail || 'Upload failed.', 'error');
     }
   } catch (err) {
     console.error(err);
-    showMessage(uploadStatus, 'Network error.', true);
+    setMessage(uploadStatus, 'Network error.', 'error');
   }
 });
 
-// --------------------------------------------------------------
-// Question / answer handler
 askBtn.addEventListener('click', async () => {
   const question = questionEl.value.trim();
   const k = parseInt(kSlider.value, 10);
   if (!question) {
-    showMessage(answerBox, 'Please type a question.', true);
+    setMessage(answerBox, 'Please type a question.', 'error');
     return;
   }
-  answerBox.textContent = 'Thinking …';
+  answerBox.textContent = 'Thinking…';
   try {
     const resp = await fetch('/api/query', {
       method: 'POST',
@@ -62,16 +57,15 @@ askBtn.addEventListener('click', async () => {
       answerBox.textContent = data.answer;
     } else {
       answerBox.textContent = data.detail || 'Error while answering.';
-      answerBox.style.color = '#e74c3c';
+      answerBox.style.color = '#e53935';
     }
   } catch (err) {
     console.error(err);
     answerBox.textContent = 'Network error.';
-    answerBox.style.color = '#e74c3c';
+    answerBox.style.color = '#e53935';
   }
 });
 
-// Update the visible "k" value while the slider moves
 kSlider.addEventListener('input', () => {
   kValue.textContent = kSlider.value;
 });

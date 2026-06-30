@@ -2,38 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vet‑AI RAG Demo</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/static/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* Inline minimal reset for body scrollbars */
+    html, body { height: 100%; }
+  </style>
 </head>
 <body>
   <main class="container">
     <h1>Vet‑AI RAG Demo</h1>
 
-    <!-- PDF upload section -->
+    <!-- Upload Section -->
     <section class="card">
-      <h2>Upload a PDF</h2>
-      <form id="upload-form">
+      <h2>📂 Upload a PDF</h2>
+      <form id="upload-form" aria-label="PDF upload form">
         <input type="file" id="pdf-input" accept=".pdf" required />
-        <button type="submit">📥 Ingest PDF</button>
+        <button type="submit">🚀 Ingest PDF</button>
       </form>
-      <p id="upload-status" class="status"></p>
+      <p id="upload-status" class="status" aria-live="polite"></p>
     </section>
 
-    <!-- Question/answer section -->
+    <!-- Question & Answer Section -->
     <section class="card">
-      <h2>Ask a question</h2>
-      <label for="question">Question:</label>
-      <textarea id="question" rows="3" placeholder="What is the purpose of this project?" required></textarea>
+      <h2>❓ Ask a question</h2>
+      <label for="question" class="sr-only">Question</label>
+      <textarea id="question" rows="3" placeholder="What do you want to know about the uploaded document?" required></textarea>
 
-      <label for="k-slider">Number of chunks to retrieve (k): <span id="k-value">5</span></label>
-      <input type="range" id="k-slider" min="1" max="10" value="5" />
+      <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+        <label for="k-slider" style="margin-right: 0.5rem;">Chunks to retrieve (k): </label>
+        <input type="range" id="k-slider" min="1" max="10" value="5" aria-label="Number of chunks to retrieve" />
+        <span id="k-value" style="margin-left: 0.5rem; font-weight: 600;">5</span>
+      </div>
 
       <button id="ask-btn">🤖 Get answer</button>
 
-      <h3>Answer</h3>
-      <div id="answer" class="answer-box"></div>
+      <h3 style="margin-top: 1.5rem;">Answer</h3>
+      <div id="answer" class="answer-box" aria-live="polite"></div>
     </section>
   </main>
-  <script src="script.js"></script>
+  <script src="/static/script.js"></script>
 </body>
 </html>

@@ -5,15 +5,16 @@ from pathlib import Path
 from typing import List
 
 import requests
-from fastapi import FastAPI, File, UploadFile, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, File, UploadFile, HTTPException, Body, Request
+from fastapi.responses import JSONResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 # ------------------------------------------------------------------
 # Project imports (your existing library code)
 # ------------------------------------------------------------------
-from src import retrieve                     # rag_query wrapper
+from src import retrieve                     # legacy retrieve function (not used for query)
+from scripts.rag_pipeline import rag_query                     # actual RAG query implementation
 from src.extractor import extract_text       # PDF → raw text
 from src.cleaner import clean_text           # text cleaning
 from src.config import PDF_ROOT, MAX_PROMPT_CHARS
@@ -46,7 +47,12 @@ app.add_middleware(
 )
 
 # Serve the static front‑end (index.html, style.css, script.js)
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+app.mount("/static", StaticFiles(directory="static", html=True), name="static")
+
+# Serve the main page at root
+@app.get("/", response_class=FileResponse)
+async def serve_root():
+    return FileResponse(path="static/index.html", media_type="text/html")
 
 # ------------------------------------------------------------------
 # Helper: embed a batch of texts using Ollama's embed endpoint
@@ -156,14 +162,17 @@ async def api_upload(file: UploadFile = File(...)):
 # ------------------------------------------------------------------
 # API endpoint: ask a question (RAG query)
 # ------------------------------------------------------------------
+from fastapi import Request
+
 @app.post("/api/query")
-async def api_query(payload: dict):
+async def api_query(request: Request):
+    payload = await request.json()
     question: str = payload.get("question", "").strip()
     if not question:
         raise HTTPException(status_code=400, detail="Missing 'question' field")
     k: int = int(payload.get("k", 5))
     try:
-        answer = retrieve.rag_query(question, k=k)
+        answer = rag_query(question, k=k)
     except Exception as exc:
         log.exception("RAG query failed")
         raise HTTPException(status_code=500, detail=str(exc))

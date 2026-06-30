@@ -12,7 +12,7 @@ RAG_LLM: str=os.getenv("RAG_LLM","qwen2.5:3b").lower()
 RAG_TOP_K: int = int(os.getenv("RAG_TOP_K", "5"))
 RAG_MIN_SCORE: float = float(os.getenv("RAG_MIN_SCORE", "0.1"))
 MAX_CONTEXT_TOKENS: int = int(os.getenv("MAX_CONTEXT_TOKENS", "2000"))
-RAG_TEMPERATURE: float = float(os.getenv("RAG_TEMPERATURE", "0.0"))
+RAG_TEMPERATURE: float = float(os.getenv("RAG_TEMPERATURE", "0.7"))
 RAG_MAX_TOKENS: int = int(os.getenv("RAG_MAX_TOKENS", "1024"))
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 
@@ -36,8 +36,10 @@ def build_prompt(question: str, chunks: List[Dict[str, Any]]) -> str:
     Answer (with citations):
     """
     system = (
-        "You are a helpful assistant. Answer ONLY using the provided context. "
-        "Cite each fact with the chunk number, e.g. [1]."
+        "You are a helpful, curious assistant. "
+        "First think step‑by‑step, then answer the question. "
+        "If the given context does not contain enough information, you may draw on "
+        "your own general knowledge, but always cite the retrieved chunks you used."
     )
     # Pre‑process chunk text to remove newlines (avoid backslashes in f‑string expressions)
     cleaned_chunks = []
@@ -117,7 +119,11 @@ def rag_query(question:str,k:int=RAG_TOP_K,min_score:float=RAG_MIN_SCORE,max_con
     log.info("Retrieving up to %s chunks (min score=%s)",k,min_score)
     hits=retrieve(question,k=k) #retrieving from chromdb package we made in src
     if not hits:
-        return "Could not find any relevant information"
+        fallback_prompt = (
+            "You are an AI assistant. Answer the following question using your general knowledge. "
+            f"Question: {question}"
+        )
+        return dispatch_llm(fallback_prompt)
     
     combined=" ".join(hit["text"] for hit in hits)
     trimmed=truncate_to_token_budget(combined,max_context_tokens)

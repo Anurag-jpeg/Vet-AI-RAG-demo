@@ -1,60 +1,129 @@
+/* Modern UI styles for Vet‑AI RAG Demo */
+
+:root {
+  --font-primary: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --color-bg: #f9fafb;
+  --color-surface: #ffffff;
+  --color-primary: #2563eb; /* blue-600 */
+  --color-primary-hover: #1d4ed8; /* blue-700 */
+  --color-text: #1f2937; /* gray-800 */
+  --color-muted: #6b7280; /* gray-500 */
+  --radius: 0.75rem;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-}
-body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background: #f5f7fa;
-  color: #333;
+  padding: 0;
 }
+
+body {
+  font-family: var(--font-primary);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
 .container {
   max-width: 800px;
   margin: 2rem auto;
   padding: 0 1rem;
 }
-h1, h2, h3 {
-  color: #2c3e50;
+
+h1,
+h2,
+h3 {
+  color: var(--color-text);
+  margin-bottom: 0.75rem;
 }
+
+h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
 .card {
-  background: #fff;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
 }
+
 input[type="file"] {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
+
 button {
-  background: #3498db;
+  background: var(--color-primary);
   color: #fff;
   border: none;
-  padding: 0.6rem 1rem;
-  border-radius: 4px;
+  border-radius: var(--radius);
+  padding: 0.6rem 1.2rem;
   cursor: pointer;
   font-size: 1rem;
+  transition: background 0.2s ease;
 }
+
 button:hover {
-  background: #2980b9;
+  background: var(--color-primary-hover);
 }
+
 textarea,
 input[type="range"] {
   width: 100%;
   margin-top: 0.5rem;
   margin-bottom: 1rem;
+  border: 1px solid #d1d5db; /* gray-300 */
+  border-radius: var(--radius);
+  padding: 0.5rem;
+  font-family: inherit;
 }
+
+textarea {
+  resize: vertical;
+  min-height: 4rem;
+}
+
 .answer-box {
   white-space: pre-wrap;
-  background: #f0f4f8;
+  background: #f3f4f6; /* gray-100 */
   padding: 1rem;
-  border-radius: 4px;
+  border-radius: var(--radius);
   min-height: 4rem;
-  border: 1px solid #dcdfe6;
+  border: 1px solid #e5e7eb; /* gray-200 */
 }
+
 .status {
   margin-top: 0.5rem;
   font-style: italic;
+  color: var(--color-muted);
+}
+
+/* Slider styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  height: 6px;
+  background: #d1d5db;
+  border-radius: 3px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background: var(--color-primary-hover);
 }

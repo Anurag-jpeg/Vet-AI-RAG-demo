@@ -33,10 +33,10 @@ RAG_TEMPERATURE: float = float(os.getenv("RAG_TEMPERATURE", "0.0"))
 # Maximum number of tokens we will allow in the **prompt** (roughly
 # 4 characters per token).  This is a hard cap that keeps the request
 # payload small and avoids Ollama‑side time‑outs.
-MAX_PROMPT_CHARS: int = int(os.getenv("MAX_PROMPT_CHARS", "4000"))
+MAX_PROMPT_CHARS: int = int(os.getenv("MAX_PROMPT_CHARS", "8000"))
 # Maximum context size (in tokens) that the prompt‑builder will try to fit
 # before it starts trimming chunks.  One token ≈ 4 characters.
-MAX_CONTEXT_TOKENS: int = int(os.getenv("MAX_CONTEXT_TOKENS", "2000"))
+MAX_CONTEXT_TOKENS: int = int(os.getenv("MAX_CONTEXT_TOKENS", "3000"))
 
 
 PAGE_SEPARATOR = "\n--- Page {num} ---\n"
