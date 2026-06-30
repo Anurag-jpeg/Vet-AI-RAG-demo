@@ -1,0 +1,8 @@
+PyMuPDF==1.26.3
+python-dotenv==1.1.1
+pydantic==2.11.7
+PyPDF2>=3.0.1
+
+# Optional OCR support
+# pdf2image>=1.16.3
+# pytesseract>=0.3.10

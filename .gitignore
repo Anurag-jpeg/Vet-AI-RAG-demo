@@ -1,0 +1,111 @@
+gitignore
+# --------------------------------------------------------------
+# Python / virtual‑environment artifacts
+# --------------------------------------------------------------
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+*.dist-info/
+*.sqlite3
+*.log
+
+# --------------------------------------------------------------
+# Project‑specific generated data
+# --------------------------------------------------------------
+papers/raw/
+papers/cleaned/
+output/
+embeddings/
+uploaded/
+*.npy
+
+# --------------------------------------------------------------
+# IDE / editor files
+# --------------------------------------------------------------
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+*.code-workspace
+
+# --------------------------------------------------------------
+# OS / misc
+# --------------------------------------------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+Icon?
+._*
+
+2️⃣ README.md
+
+# Vet‑AI RAG Demo
+
+A lightweight Retrieval‑Augmented Generation (RAG) system that lets you:
+
+* **Upload PDF research papers** (the server extracts, cleans, chunks, embeds and indexes them).
+* **Ask natural‑language questions** about any indexed paper.
+* **Get answers with citations** that point back to the exact PDF and chunk.
+
+Everything runs **locally** – no external API keys required.
+
+---
+
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Running Ollama (LLM backend)](#running-ollama-llm-backend)
+- [Indexing your PDFs](#indexing-your-pdfs)
+- [Start the web UI](#start-the-web-ui)
+- [Usage examples](#usage-examples)
+- [Project structure](#project-structure)
+- [Customization & hyper‑parameters](#customization--hyper‑parameters)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## Prerequisites
+
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+*.dist-info/
+*.sqlite3
+*.log
+
+# --------------------------------------------------------------
+# Project‑specific generated data
+# --------------------------------------------------------------
+papers/raw/
+papers/cleaned/
+output/
+embeddings/
+uploaded/
+*.npy
+
+# --------------------------------------------------------------
+# IDE / editor files
+# --------------------------------------------------------------
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+*.code-workspace
+
+# --------------------------------------------------------------
+# OS / misc
+# --------------------------------------------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+Icon?
+._*
